@@ -1,0 +1,6 @@
+subgraphs:
+  subgraph:
+    routing_url: ${env.DATA_URL}
+    schema:
+      file: schema_monogrph_publish.graphql
+federation_version: =2.15.4

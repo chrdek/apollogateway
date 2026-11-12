@@ -1,0 +1,13 @@
+FROM ghcr.io/apollographql/router:v2.18.0
+
+COPY Revisedrouter.yaml /app/Revisedrouter.yaml
+COPY supergraph_builds/supergraph_router_build.graphql /app/supergraph_router_build.graphql
+
+# Expose the necessary port
+EXPOSE 4000
+
+# Command to run the Apollo Router
+# CMD ["apollo-router", "--config", "/path/to/config.yaml"]
+# , "--supergraph", "supergraph_router_build.graphql"]
+
+CMD ["--config", "/app/Revisedrouter.yaml"

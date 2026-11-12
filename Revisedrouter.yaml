@@ -1,0 +1,98 @@
+supergraph:
+  # Router listens inside the Docker container.
+  listen: 0.0.0.0:4000
+
+  # Public GraphQL endpoint.
+  path: /v2/evpointsData
+  
+  # Further redact technical information concerning queries.
+  introspection: false
+  redact_query_validation_errors: true
+
+connectors:
+  sources:
+    subgraph.d3info:
+        override_url: "${env.DATA_URL}"
+
+override_subgraph_url:
+  data: "${env.DATA_URL}"
+
+homepage:
+  # Remove Apollo Router landing page.
+  enabled: false
+
+
+sandbox:
+  # Remove Apollo Sandbox.
+  enabled: false
+
+
+health_check:
+  enabled: false
+  # listen: 0.0.0.0:8088
+  # path: /health
+
+
+limits:
+  router:
+
+    # Maximum HTTP request body.
+    http_max_request_bytes: 500000
+
+    # HTTP/1 request-header protection.
+    http1_max_request_headers: 50
+    http1_max_request_buf_size: 256KiB
+
+    # HTTP/2 header protection.
+    http2_max_headers_list_bytes: 32KiB
+
+    # GraphQL parser limits.
+    parser_max_tokens: 10000
+    parser_max_recursion: 50
+
+    # GraphQL operation complexity limits.
+    max_depth: 8
+    max_height: 80
+    max_aliases: 10
+    max_root_fields: 10
+
+    # Additional protection against pathological recursive selections.
+    max_recursive_selections: 5000
+
+    # Keep introspection itself bounded.
+    introspection_max_depth: true
+
+    # Enforce limits rather than merely logging violations.
+    warn_only: false
+
+  subgraph:
+    all:
+      # Prevent unexpectedly large backend responses.
+      http_max_response_size: 10MiB
+
+
+traffic_shaping:
+  router:
+
+    # Global Router-wide back-pressure.
+    # This is NOT per-IP; Vercel/WAF handles edge/client rate limiting.
+    global_rate_limit:
+      capacity: 30
+      interval: 1s
+
+    # Maximum lifetime of a public Router request.
+    timeout: 8s
+
+    # Prevent unlimited simultaneous request processing.
+    concurrency_limit: 25
+
+  # Router -> subgraph timeout.
+  # Keep this below the Router's public request timeout.
+  all:
+    timeout: 8s
+
+
+# A deliberately restricted public API has no need for arbitrary
+# GraphQL batching unless your clients explicitly require it.
+batching:
+  enabled: false
