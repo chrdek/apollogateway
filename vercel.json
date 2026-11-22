@@ -17,6 +17,19 @@
           "value": "frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
         }
       ]
+    },
+    {
+      "source": "/v2/evpointsData",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://evdata-app.vercel.app/"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, OPTIONS"
+        }
+      ]
     }
   ]
 }
