@@ -23,11 +23,11 @@
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
-          "value": "https://evdata-app.vercel.app/"
+          "value": "https://evdata-app.vercel.app"
         },
         {
           "key": "Access-Control-Allow-Methods",
-          "value": "GET, POST, OPTIONS"
+          "value": "POST"
         }
       ]
     }
